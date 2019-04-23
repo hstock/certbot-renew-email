@@ -59,7 +59,7 @@ def main():
             try:
                 server.starttls()
                 server.ehlo()
-            except [smtplib.SMTPNotSupportedError, smtplib.SMTPException]:
+            except smtplib.SMTPException:
                 pass
             server.send_message(msg)
 
