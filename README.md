@@ -1,7 +1,7 @@
 certbot_notify_post_hook
 ========================
 
-<img href="https://travis-ci.org/hstock/certbot-renew-email.svg?branch=master"/>
+[![Build Status](https://travis-ci.org/hstock/certbot-renew-email.svg?branch=master)](https://travis-ci.org/hstock/certbot-renew-email)
 
 You can use this script from a post-renewal hook in certbot. Either use the
 built-in SMTP capability for sending directly to a host or pipe the output
