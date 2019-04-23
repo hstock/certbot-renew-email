@@ -32,3 +32,9 @@ Example for hook script:
     /usr/local/bin/certbot_notify_post_hook.py --print-only your_servers_mail@your.domain your_team_mail@your.domain \\
     | /usr/sbin/sendmail -t
 
+Copying
+-------
+
+Licensed under MIT license - see LICENSE file for details.
+
+If in doubt what this means, see https://opensource.org/licenses/MIT.
