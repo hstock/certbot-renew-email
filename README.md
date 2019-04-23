@@ -3,12 +3,12 @@ certbot_notify_post_hook
 
 [![Build Status](https://travis-ci.org/hstock/certbot-renew-email.svg?branch=master)](https://travis-ci.org/hstock/certbot-renew-email)
 
-You can use this script from a post-renewal hook in certbot. Either use the
+You can use this script from a deploy hook in certbot. Either use the
 built-in SMTP capability for sending directly to a host or pipe the output
 to a `sendmail` or equivalent command.
 
 For example place the following script in your hook directory
-(`/etc/letsencrypt/renewal-hooks/post`):
+(`/etc/letsencrypt/renewal-hooks/deploy`):
 
     #!/bin/sh
     /usr/local/bin/certbot_notify_post_hook.py your_servers_mail@your.domain your_team_mail@your.domain
@@ -31,6 +31,12 @@ Example for hook script:
     #!/bin/sh
     /usr/local/bin/certbot_notify_post_hook.py --print-only your_servers_mail@your.domain your_team_mail@your.domain \\
     | /usr/sbin/sendmail -t
+
+Issue with post-renew hook
+--------------------------
+
+At least in version 0.28.0 of certbot, the required environment variables
+are only set when called as deploy-hook and not when called as post-renewal-hook.
 
 Copying
 -------
