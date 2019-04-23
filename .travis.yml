@@ -1,0 +1,9 @@
+dist: xenial
+language: python
+python:
+  - "3.4"
+  - "3.5"
+  - "3.6"
+  - "3.7"
+script:
+  RENEWED_DOMAINS="foo.bar ham.cheese" RENEWED_LINEAGE=`pwd` ./certbot_notify_post_hook.py --print-only test@test.invalid dummy@dummy.invalid
