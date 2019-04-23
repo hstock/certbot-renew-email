@@ -8,11 +8,22 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.mime.application import MIMEApplication
 from io import StringIO
+from argparse import ArgumentParser
 
 
 def main():
-    mail_from = sys.argv[1]
-    mail_to = sys.argv[2]
+    parser = ArgumentParser(description="Send email notification about renewed certificates.")
+    parser.add_argument('mail_from')
+    parser.add_argument('mail_to')
+    parser.add_argument('--print-only', action='store_true', default=False,
+                        help="Only print the email to stdout; do not send anything")
+    parser.add_argument('--smtp-host', default="localhost", help="SMTP host for sending mails")
+    parser.add_argument('--smtp-port', default="25", type=int, help="SMTP port for sending mails")
+
+    options = parser.parse_args()
+
+    mail_from = options.mail_from
+    mail_to = options.mail_to
 
     domains = os.environ['RENEWED_DOMAINS'].split()
     cert_dir = Path(os.environ['RENEWED_LINEAGE'])
@@ -35,7 +46,17 @@ def main():
         attachment["Content-Disposition"] = "attachment; filename=cert.pem"
         msg.attach(attachment)
 
-    print(msg.as_string())
+    if options.print_only:
+        sys.stdout.buffer.write(msg.as_bytes())
+    else:
+        with smtplib.SMTP(options.smtp_host, port=options.smtp_port) as server:
+            try:
+                server.starttls()
+                server.ehlo()
+            except [smtplib.SMTPNotSupportedError, smtplib.SMTPException]:
+                pass
+            server.send_message(msg)
+
 
 if __name__ == "__main__":
     main()
